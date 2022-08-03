@@ -1,0 +1,68 @@
+name: shop_it
+description: A simple list app to make shopping lists and share them between contacts
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.5 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  shared_preferences: ^2.0.15
+  flutter_bloc: ^8.0.1
+  loading_animation_widget: ^1.2.0+2
+  dio: ^4.0.6
+  pretty_dio_logger: ^1.2.0-beta-1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  json_serializable: ^6.3.1
+  json_annotation: ^4.6.0
+  flutter_svg: ^1.1.1+1
+  pull_to_refresh: ^2.0.0
+  equatable: ^2.0.3
+  hive_generator: ^1.1.3
+  cached_network_image: ^3.2.1
+  carousel_slider: ^4.1.1
+  email_validator: ^2.0.1
+  material_design_icons_flutter: ^5.0.6996
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  import_sorter: ^4.6.0
+  flutter_launcher_icons: ^0.9.3
+  build_runner: ^2.2.0
+
+flutter_icons:
+  image_path: 'assets/app_icons/computer_network.png'
+  #  image_path_ios: 'assets/app_icons/computer_network.png' #this line is used to specify a separate file for ios
+  android: true
+  ios: true
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/app_icons/
+    - assets/images/
+
+  fonts:
+    - family: Caveat
+      fonts:
+        - asset: assets/fonts/Caveat-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Caveat-Medium.ttf
+          weight: 600
+        - asset: assets/fonts/Caveat-Bold.ttf
+          weight: 700
+    - family: Jua
+      fonts:
+        - asset: assets/fonts/Jua-Regular.ttf
