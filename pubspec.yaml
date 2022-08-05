@@ -31,6 +31,7 @@ dependencies:
   carousel_slider: ^4.1.1
   email_validator: ^2.0.1
   material_design_icons_flutter: ^5.0.6996
+  flutter_native_splash: ^2.2.7
 
 dev_dependencies:
   flutter_test:
@@ -41,8 +42,8 @@ dev_dependencies:
   build_runner: ^2.2.0
 
 flutter_icons:
-  image_path: 'assets/app_icons/computer_network.png'
-  #  image_path_ios: 'assets/app_icons/computer_network.png' #this line is used to specify a separate file for ios
+  image_path: 'assets/app_icons/playstore.png'
+  image_path_ios: 'assets/app_icons/appstore.png' #this line is used to specify a separate file for ios
   android: true
   ios: true
 
