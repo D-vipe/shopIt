@@ -1,72 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:shop_it/app/config/app_router.gr.dart';
+import 'package:shop_it/app/config/route_guards/auth_guard.dart';
+import 'package:shop_it/redux/app_middleware.dart';
+import 'package:shop_it/redux/app_reducer.dart';
+import 'package:shop_it/redux/app_state.dart';
+import 'package:shop_it/services/hive_service.dart';
+import 'package:shop_it/services/shared_preferences.dart';
+import 'package:shop_it/services/theme_service.dart';
 
-void main() {
+import 'app/theme/theme.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedStorageService.init();
+  await HiveService.init();
+
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  final store = Store<AppState>(
+    appReducer,
+    initialState: AppState.initialState(),
+    middleware: createAppMiddleWare(),
+  );
+
+  final _appRouter = AppAutoRouter(checkUserAuth: CheckUserAuth());
+
+  bool _light = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _light = ThemeService.getCurrentTheme();
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  void changeTheme(bool lightTheme) {
     setState(() {
-      _counter++;
+      _light = lightTheme;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    return StoreProvider<AppState>(
+      store: store,
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'CraftHub',
+        locale: const Locale('ru'),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+        ],
+        theme: _light ? AppTheme.lightTheme() : AppTheme.darkTheme(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+        routerDelegate: _appRouter.delegate(),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
