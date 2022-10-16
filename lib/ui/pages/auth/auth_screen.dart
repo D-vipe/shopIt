@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
-import 'package:shop_it/ui/enums/form_type.dart';
+import 'package:shop_it/app/enums/carousel_action_type.dart';
 import 'package:shop_it/ui/pages/auth/components/header_title_image.dart';
 import 'package:shop_it/ui/pages/auth/forms/auth_form.dart';
 import 'package:shop_it/ui/pages/auth/forms/reg_form.dart';
@@ -22,12 +22,12 @@ class _AuthScreenState extends State<AuthScreen> {
     _controller = CarouselSliderController();
   }
 
-  void handleCarousel({required FormType type}) {
+  void handleCarousel({required CarouselAction type}) {
     switch (type) {
-      case FormType.auth:
+      case CarouselAction.prev:
         _controller.previousPage(const Duration(milliseconds: 700));
         break;
-      case FormType.reg:
+      case CarouselAction.next:
         _controller.nextPage(const Duration(milliseconds: 700));
         break;
     }
@@ -49,9 +49,9 @@ class _AuthScreenState extends State<AuthScreen> {
                 Expanded(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    color: Theme.of(context).canvasColor,
+                    color: Theme.of(context).colorScheme.background,
                     child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                      physics: const BouncingScrollPhysics(),
                       child: Column(
                         children: [
                           const HeaderTitleImage(),
@@ -67,9 +67,9 @@ class _AuthScreenState extends State<AuthScreen> {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 35.0,
-                          )
+                          // const SizedBox(
+                          //   height: 35.0,
+                          // )
                         ],
                       ),
                     ),

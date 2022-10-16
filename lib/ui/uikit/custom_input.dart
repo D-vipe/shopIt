@@ -1,7 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shop_it/app/constants/app_colors.dart';
 import 'package:shop_it/app/theme/text_styles.dart';
+import 'package:shop_it/ui/uikit/text_formatters/phone_format.dart';
 
 class CustomInput extends StatelessWidget {
   final String label;
@@ -10,6 +12,7 @@ class CustomInput extends StatelessWidget {
   final bool isInvalid;
   final bool isProcessing;
   final Function? resetError;
+  final bool? isPhone;
 
   const CustomInput({
     Key? key,
@@ -19,17 +22,33 @@ class CustomInput extends StatelessWidget {
     required this.isInvalid,
     required this.isProcessing,
     this.resetError,
+    this.isPhone,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    MaskTextInputFormatter? formatter;
+    if (isPhone == true) {
+      formatter = phoneFormatter();
+    }
+
     return TextFormField(
       enabled: !isProcessing,
       maxLines: maxLines,
       controller: controller,
       showCursor: true,
+      keyboardType: isPhone == true ? TextInputType.number : null,
+      inputFormatters: isPhone == true ? [formatter!] : [],
       cursorColor: Theme.of(context).colorScheme.onBackground,
       onTap: () => resetError != null ? resetError!.call() : null,
+      onChanged: (String value) {
+        if (isPhone == true) {
+          if (formatter!.getUnmaskedText() == '7') {
+            value = '';
+            controller.text = '';
+          }
+        }
+      },
       decoration: InputDecoration(
         isDense: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 21, vertical: 10),

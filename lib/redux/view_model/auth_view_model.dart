@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class AuthViewModel {
   final String login;
   final String password;
+  final String? passwordRepeat;
   final bool isProcessing;
   final bool? authSuccess;
+  final bool? regSuccess;
   final String? errorMessage;
   final AuthErrorCode? errorCode;
 
@@ -13,7 +15,9 @@ class AuthViewModel {
     required this.login,
     required this.password,
     required this.isProcessing,
+    this.passwordRepeat,
     this.authSuccess,
+    this.regSuccess,
     this.errorMessage,
     this.errorCode,
   });
@@ -29,8 +33,10 @@ class AuthViewModel {
   AuthViewModel copyWith({
     required String login,
     required String password,
+    String? passwordRepeat,
     required bool isProcessing,
     bool? authSuccess,
+    bool? regSuccess,
     String? errorMessage,
     AuthErrorCode? errorCode,
   }) {
@@ -39,6 +45,8 @@ class AuthViewModel {
       password: password,
       isProcessing: isProcessing,
       authSuccess: authSuccess ?? this.authSuccess,
+      passwordRepeat: passwordRepeat,
+      regSuccess: regSuccess ?? this.regSuccess,
       errorMessage: errorMessage ?? this.errorMessage,
       errorCode: errorCode ?? this.errorCode,
     );
@@ -51,8 +59,10 @@ class AuthViewModel {
           runtimeType == other.runtimeType &&
           login == other.login &&
           password == other.password &&
+          passwordRepeat == other.passwordRepeat &&
           isProcessing == other.isProcessing &&
           authSuccess == other.authSuccess &&
+          regSuccess == other.regSuccess &&
           errorCode == other.errorCode &&
           errorMessage == other.errorMessage;
 
@@ -60,10 +70,12 @@ class AuthViewModel {
   int get hashCode =>
       login.hashCode ^
       password.hashCode ^
+      passwordRepeat.hashCode ^
       isProcessing.hashCode ^
       authSuccess.hashCode ^
+      regSuccess.hashCode ^
       errorCode.hashCode ^
       errorMessage.hashCode;
 }
 
-enum AuthErrorCode { wrongLogin, wrongCredentials, other }
+enum AuthErrorCode { wrongLogin, wrongCredentials, passwordMismatch, other }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shop_it/app/constants/app_colors.dart';
 import 'package:shop_it/app/constants/app_dictionary.dart';
 import 'package:shop_it/app/theme/text_styles.dart';
-import 'package:shop_it/ui/enums/form_type.dart';
+import 'package:shop_it/app/enums/carousel_action_type.dart';
 import 'package:shop_it/ui/pages/auth/components/input_block.dart';
 import 'package:shop_it/ui/uikit/rounded_button.dart';
 
@@ -42,7 +43,8 @@ class _RegFormState extends State<RegForm> {
 
     // first check email field
     isLoginValid = loginController.text != '';
-    isPasswordValid = passwordController.text != '';
+    isPasswordValid =
+        passwordController.text != '' && passwordRepeatController.text != '' && passwordController.text == passwordRepeatController.text;
 
     if (isLoginValid && isPasswordValid) {
       return true;
@@ -61,6 +63,13 @@ class _RegFormState extends State<RegForm> {
           passwordHasError = true;
           loginErrorText = '';
           passwordErrorText = AppDictionary.fillInput;
+        });
+      } else if (passwordController.text != passwordRepeatController.text) {
+        setState(() {
+          loginHasError = false;
+          passwordHasError = true;
+          loginErrorText = '';
+          passwordErrorText = AppDictionary.passwordMismatch;
         });
       } else {
         setState(() {
@@ -127,7 +136,7 @@ class _RegFormState extends State<RegForm> {
               key: _formKey,
               child: Stack(clipBehavior: Clip.none, children: [
                 Container(
-                  height: 240.0,
+                  height: 250.0,
                 ),
                 AnimatedPositioned(
                   // top: MediaQuery.of(context).viewInsets.bottom > 0 ? -80 : 0,
@@ -136,15 +145,16 @@ class _RegFormState extends State<RegForm> {
                   duration: const Duration(milliseconds: 150),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width - 40, // margin x 2 + padding x 2
-                    height: 240.0,
+                    height: 250.0,
                     // decoration: AppDecorations.boxShadowDecoration,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         InputBlock(
+                            isPhone: true,
                             isPassword: false,
-                            label: AppDictionary.authLoginLabel,
+                            label: AppDictionary.phoneLabel,
                             controller: loginController,
                             errorMessage: loginErrorText,
                             isError: loginHasError,
@@ -161,14 +171,14 @@ class _RegFormState extends State<RegForm> {
                         InputBlock(
                             isPassword: true,
                             label: AppDictionary.authPasswordRepeatLabel,
-                            controller: passwordController,
+                            controller: passwordRepeatController,
                             errorMessage: passwordErrorText,
                             isError: passwordHasError,
                             resetError: resetPasswordError,
                             isProcessing: processForm),
                         const SizedBox(height: 19.5),
                         AppRoundedButton(
-                          label: AppDictionary.authLoginBtn,
+                          label: AppDictionary.authRegBtn,
                           isProcessing: processForm,
                           color: AppColors.red,
                           labelStyle: AppTextStyle.main18W600.apply(color: AppColors.white),
@@ -183,7 +193,7 @@ class _RegFormState extends State<RegForm> {
             Container(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () => widget.changeForm(type: FormType.auth),
+                onPressed: () => widget.changeForm(type: CarouselAction.prev),
                 child: Text(
                   AppDictionary.toAuthForm,
                   style: AppTextStyle.main18W400.apply(color: Theme.of(context).colorScheme.primary),

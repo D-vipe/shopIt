@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_it/app/constants/app_colors.dart';
 import 'package:shop_it/app/constants/app_dictionary.dart';
 import 'package:shop_it/app/theme/text_styles.dart';
-import 'package:shop_it/ui/enums/form_type.dart';
+import 'package:shop_it/app/enums/carousel_action_type.dart';
 import 'package:shop_it/ui/pages/auth/components/input_block.dart';
 import 'package:shop_it/ui/uikit/rounded_button.dart';
 
@@ -142,8 +142,9 @@ class _AuthFormState extends State<AuthForm> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         InputBlock(
+                            isPhone: true,
                             isPassword: false,
-                            label: AppDictionary.authLoginLabel,
+                            label: AppDictionary.phoneLabel,
                             controller: loginController,
                             errorMessage: loginErrorText,
                             isError: loginHasError,
@@ -174,7 +175,7 @@ class _AuthFormState extends State<AuthForm> {
             Container(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () => widget.changeForm(type: FormType.reg),
+                onPressed: () => widget.changeForm(type: CarouselAction.next),
                 child: Text(
                   AppDictionary.toRegForm,
                   style: AppTextStyle.main18W400.apply(color: Theme.of(context).colorScheme.primary),

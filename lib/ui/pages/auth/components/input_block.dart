@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shop_it/app/theme/text_styles.dart';
 import 'package:shop_it/ui/uikit/custom_input.dart';
 import 'package:shop_it/ui/uikit/custom_password_input.dart';
 
 class InputBlock extends StatelessWidget {
+  final bool? isPhone;
   final String label;
   final String errorMessage;
   final bool isPassword;
@@ -21,6 +23,7 @@ class InputBlock extends StatelessWidget {
     required this.controller,
     required this.resetError,
     required this.isProcessing,
+    this.isPhone,
   }) : super(key: key);
 
   @override
@@ -28,17 +31,6 @@ class InputBlock extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AnimatedOpacity(
-          opacity: isError ? 1 : 0,
-          duration: const Duration(milliseconds: 800),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 3.0),
-            child: Text(
-              errorMessage,
-              style: AppTextStyle.secondary12W400.apply(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ),
         isPassword
             ? CustomPasswordInput(
                 label: label,
@@ -49,13 +41,25 @@ class InputBlock extends StatelessWidget {
                 isProcessing: isProcessing,
               )
             : CustomInput(
+                isPhone: isPhone,
                 controller: controller,
                 label: label,
                 maxLines: 1,
                 isInvalid: isError,
                 resetError: resetError,
                 isProcessing: isProcessing,
-              )
+              ),
+        AnimatedOpacity(
+          opacity: isError ? 1 : 0,
+          duration: const Duration(milliseconds: 800),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 3.0),
+            child: Text(
+              errorMessage,
+              style: AppTextStyle.main14W400.apply(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ),
       ],
     );
   }

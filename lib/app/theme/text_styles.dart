@@ -32,6 +32,12 @@ class AppTextStyle {
     fontWeight: FontWeight.w600,
   );
 
+  static const secondary10W400 = TextStyle(
+    fontFamily: 'Jua',
+    fontSize: 10.0,
+    fontWeight: FontWeight.w400,
+  );
+
   static const secondary12W400 = TextStyle(
     fontFamily: 'Jua',
     fontSize: 12.0,

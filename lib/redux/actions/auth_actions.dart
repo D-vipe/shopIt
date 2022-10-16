@@ -7,6 +7,20 @@ class CheckAuthCredentials {
   CheckAuthCredentials({required this.login, required this.password});
 }
 
+class CheckRegCredentials {
+  final String login;
+  final String password;
+  final String passwordRepeat;
+
+  CheckRegCredentials({required this.login, required this.password, required this.passwordRepeat});
+}
+
+class RegSuccess {
+  final String login;
+
+  RegSuccess({required this.login});
+}
+
 class AuthSuccess {
   // TODO add success auth object params here
 
