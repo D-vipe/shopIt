@@ -23,11 +23,6 @@ class _RegFormState extends State<RegForm> {
   late TextEditingController loginController;
   late TextEditingController passwordController;
   late TextEditingController passwordRepeatController;
-  // late bool loginHasError;
-  // late bool passwordHasError;
-  // bool processForm = false;
-  // String loginErrorText = '';
-  // String passwordErrorText = '';
 
   @override
   void initState() {
@@ -35,56 +30,7 @@ class _RegFormState extends State<RegForm> {
     loginController = TextEditingController();
     passwordController = TextEditingController();
     passwordRepeatController = TextEditingController();
-    // loginHasError = false;
-    // passwordHasError = false;
   }
-
-  // bool _customValidation() {
-  //   bool isLoginValid = false;
-  //   bool isPasswordValid = false;
-  //
-  //   // first check email field
-  //   isLoginValid = loginController.text != '';
-  //   isPasswordValid =
-  //       passwordController.text != '' && passwordRepeatController.text != '' && passwordController.text == passwordRepeatController.text;
-  //
-  //   if (isLoginValid && isPasswordValid) {
-  //     return true;
-  //   } else {
-  //     // make different conditions not to call set state multiple times
-  //     if (isLoginValid == false && isPasswordValid) {
-  //       setState(() {
-  //         loginHasError = true;
-  //         passwordHasError = false;
-  //         loginErrorText = AppDictionary.fillInput;
-  //         passwordErrorText = '';
-  //       });
-  //     } else if (isLoginValid && isPasswordValid == false) {
-  //       setState(() {
-  //         loginHasError = false;
-  //         passwordHasError = true;
-  //         loginErrorText = '';
-  //         passwordErrorText = AppDictionary.fillInput;
-  //       });
-  //     } else if (passwordController.text != passwordRepeatController.text) {
-  //       setState(() {
-  //         loginHasError = false;
-  //         passwordHasError = true;
-  //         loginErrorText = '';
-  //         passwordErrorText = AppDictionary.passwordMismatch;
-  //       });
-  //     } else {
-  //       setState(() {
-  //         loginHasError = true;
-  //         passwordHasError = true;
-  //         loginErrorText = AppDictionary.fillInput;
-  //         passwordErrorText = AppDictionary.fillInput;
-  //       });
-  //     }
-  //
-  //     return false;
-  //   }
-  // }
 
   void resetPhoneError() {
     StoreProvider.of<AppState>(context).dispatch(ResetPhoneError());
@@ -101,18 +47,6 @@ class _RegFormState extends State<RegForm> {
       password: passwordController.text,
       repeatPassword: passwordRepeatController.text,
     ));
-    // setState(() {
-    //   // implicitly clear all active errors
-    //   loginHasError = false;
-    //   loginErrorText = '';
-    //   passwordHasError = false;
-    //   passwordErrorText = '';
-    // });
-    // if (_customValidation()) {
-    //   // StoreProvider.of<AppState>(context).dispatch(CheckAuthCredentials(login: loginController.text, password: passwordController.text));
-    // } else {
-    //   setState(() => processForm = false);
-    // }
   }
 
   @override
