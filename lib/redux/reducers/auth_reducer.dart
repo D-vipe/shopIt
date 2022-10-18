@@ -3,12 +3,12 @@ import 'package:shop_it/redux/actions/auth_actions.dart';
 import 'package:shop_it/redux/view_model/auth_view_model.dart';
 
 final authReducer = combineReducers<AuthViewModel>([
-  TypedReducer<AuthViewModel, CheckAuthCredentials>(_process),
+  TypedReducer<AuthViewModel, CheckAuthCredentials>(_processAuth),
   TypedReducer<AuthViewModel, AuthSuccess>(_success),
-  TypedReducer<AuthViewModel, AuthErrorAction>(_errorHandler),
+  TypedReducer<AuthViewModel, ErrorAction>(_errorHandler),
 ]);
 
-AuthViewModel _process(AuthViewModel state, CheckAuthCredentials action) {
+AuthViewModel _processAuth(AuthViewModel state, CheckAuthCredentials action) {
   return state.copyWith(
     login: action.login,
     password: action.password,
@@ -26,7 +26,7 @@ AuthViewModel _success(AuthViewModel state, AuthSuccess action) {
   );
 }
 
-AuthViewModel _errorHandler(AuthViewModel state, AuthErrorAction action) {
+AuthViewModel _errorHandler(AuthViewModel state, ErrorAction action) {
   return state.copyWith(
       login: action.login,
       password: action.password,

@@ -1,16 +1,15 @@
 import 'package:shop_it/enums/error_codes.dart';
 
-class CheckAuthCredentials {
+class CheckRegCredentials {
   final String login;
   final String password;
+  final String repeatPassword;
 
-  CheckAuthCredentials({required this.login, required this.password});
+  CheckRegCredentials({required this.login, required this.password, required this.repeatPassword});
 }
 
-class AuthSuccess {
-  // TODO add success auth object params here
-
-  AuthSuccess();
+class RegSuccess {
+  RegSuccess();
 }
 
 class ErrorAction {
