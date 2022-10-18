@@ -35,6 +35,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double _screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         extendBody: true,
@@ -52,25 +54,33 @@ class _AuthScreenState extends State<AuthScreen> {
                     color: Theme.of(context).colorScheme.background,
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          const HeaderTitleImage(),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height - 220.0,
-                            child: CarouselSlider(
-                              controller: _controller,
-                              scrollPhysics: const NeverScrollableScrollPhysics(),
-                              slideTransform: const CubeTransform(),
+                      child: SizedBox(
+                        height: _screenHeight,
+                        child: CarouselSlider(
+                          controller: _controller,
+                          scrollPhysics: const NeverScrollableScrollPhysics(),
+                          slideTransform: const CubeTransform(),
+                          children: [
+                            Column(
                               children: [
-                                AuthForm(changeForm: handleCarousel),
-                                RegForm(changeForm: handleCarousel),
+                                const HeaderTitleImage(),
+                                SizedBox(
+                                  height: _screenHeight - 220.0,
+                                  child: AuthForm(changeForm: handleCarousel),
+                                ),
                               ],
                             ),
-                          ),
-                          // const SizedBox(
-                          //   height: 35.0,
-                          // )
-                        ],
+                            Column(
+                              children: [
+                                const HeaderTitleImage(),
+                                SizedBox(
+                                  height: _screenHeight - 220.0,
+                                  child: RegForm(changeForm: handleCarousel),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

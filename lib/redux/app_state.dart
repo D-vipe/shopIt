@@ -1,20 +1,25 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:shop_it/redux/view_model/auth_view_model.dart';
+import 'package:shop_it/redux/view_model/reg_view_model.dart';
 
 @immutable
 class AppState {
-  final AuthViewModel authScreenState;
-  const AppState({required this.authScreenState});
+  final AuthViewModel authFormState;
+  final RegViewModel regFormState;
+  const AppState({required this.authFormState, required this.regFormState});
 
   factory AppState.initialState() => AppState(
-        authScreenState: AuthViewModel.initial(),
+        authFormState: AuthViewModel.initial(),
+        regFormState: RegViewModel.initial(),
       );
 
   AppState copyWith({
-    AuthViewModel? authScreenState,
+    AuthViewModel? authFormState,
+    RegViewModel? regFormState,
   }) =>
       AppState(
-        authScreenState: authScreenState ?? this.authScreenState,
+        authFormState: authFormState ?? this.authFormState,
+        regFormState: regFormState ?? this.regFormState,
       );
 }

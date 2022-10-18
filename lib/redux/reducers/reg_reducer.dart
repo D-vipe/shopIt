@@ -6,6 +6,8 @@ final regReducer = combineReducers<RegViewModel>([
   TypedReducer<RegViewModel, CheckRegCredentials>(_processReg),
   TypedReducer<RegViewModel, RegSuccess>(_success),
   TypedReducer<RegViewModel, ErrorAction>(_errorHandler),
+  TypedReducer<RegViewModel, ResetPhoneError>(_resetPhone),
+  TypedReducer<RegViewModel, ResetPasswordError>(_resetPass),
 ]);
 
 RegViewModel _processReg(RegViewModel state, CheckRegCredentials action) {
@@ -15,6 +17,10 @@ RegViewModel _processReg(RegViewModel state, CheckRegCredentials action) {
     passwordRepeat: action.repeatPassword,
     isProcessing: true,
     regSuccess: false,
+    isPasswordValid: true,
+    isLoginValid: true,
+    loginMessage: '',
+    passwordMessage: '',
   );
 }
 
@@ -27,12 +33,35 @@ RegViewModel _success(RegViewModel state, RegSuccess action) {
   );
 }
 
+RegViewModel _resetPhone(RegViewModel state, ResetPhoneError action) {
+  return state.copyWith(
+      login: state.login,
+      password: state.password,
+      regSuccess: state.regSuccess,
+      isProcessing: false,
+      isLoginValid: true,
+      loginMessage: '');
+}
+
+RegViewModel _resetPass(RegViewModel state, ResetPasswordError action) {
+  return state.copyWith(
+      login: state.login,
+      password: state.password,
+      regSuccess: state.regSuccess,
+      isProcessing: false,
+      isPasswordValid: true,
+      passwordMessage: '');
+}
+
 RegViewModel _errorHandler(RegViewModel state, ErrorAction action) {
   return state.copyWith(
       login: action.login,
       password: action.password,
       isProcessing: false,
       regSuccess: false,
-      errorCode: action.errorCode,
+      isLoginValid: action.isLoginValid,
+      isPasswordValid: action.isPasswordValid,
+      loginMessage: action.loginError,
+      passwordMessage: action.passwordError,
       errorMessage: action.errorMessage);
 }

@@ -12,16 +12,30 @@ class RegSuccess {
   RegSuccess();
 }
 
+class ResetPhoneError {
+  ResetPhoneError();
+}
+
+class ResetPasswordError {
+  ResetPasswordError();
+}
+
 class ErrorAction {
   final String login;
   final String password;
   final String errorMessage;
-  final ErrorCode errorCode;
+  final bool? isLoginValid;
+  final bool? isPasswordValid;
+  final String? loginError;
+  final String? passwordError;
 
   ErrorAction({
     required this.login,
     required this.password,
     required this.errorMessage,
-    required this.errorCode,
+    this.isLoginValid,
+    this.isPasswordValid,
+    this.loginError,
+    this.passwordError,
   });
 }
