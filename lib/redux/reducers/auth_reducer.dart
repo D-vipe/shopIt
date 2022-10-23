@@ -32,6 +32,7 @@ AuthViewModel _errorHandler(AuthViewModel state, ErrorAction action) {
       password: action.password,
       isProcessing: false,
       authSuccess: false,
-      errorCode: action.errorCode,
+      isPhoneValid: action.isPhoneValid,
+      isPasswordValid: action.isPasswordValid,
       errorMessage: action.errorMessage);
 }

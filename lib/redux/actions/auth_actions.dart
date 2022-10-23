@@ -1,10 +1,16 @@
-import 'package:shop_it/enums/error_codes.dart';
-
 class CheckAuthCredentials {
   final String login;
   final String password;
 
   CheckAuthCredentials({required this.login, required this.password});
+}
+
+class ResetPhoneError {
+  ResetPhoneError();
+}
+
+class ResetPasswordError {
+  ResetPasswordError();
 }
 
 class AuthSuccess {
@@ -17,12 +23,18 @@ class ErrorAction {
   final String login;
   final String password;
   final String errorMessage;
-  final ErrorCode errorCode;
+  final bool? isPhoneValid;
+  final bool? isPasswordValid;
+  final String? phoneMessage;
+  final String? passwordMessage;
 
   ErrorAction({
     required this.login,
     required this.password,
     required this.errorMessage,
-    required this.errorCode,
+    this.isPhoneValid,
+    this.isPasswordValid,
+    this.phoneMessage,
+    this.passwordMessage,
   });
 }

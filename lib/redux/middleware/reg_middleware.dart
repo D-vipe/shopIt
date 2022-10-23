@@ -58,28 +58,22 @@ Middleware<AppState> _checkReg() {
         }
       });
     } else {
-      bool loginValid = true;
-      bool passwordValid = true;
       String loginErrorText = '';
       String passwordErrorText = '';
       if (isLoginValid == false && isPasswordValid) {
-        loginValid = false;
-        passwordValid = true;
-        loginErrorText = AppDictionary.fillInput;
+        loginErrorText = login.phone == ''
+            ? AppDictionary.fillInput
+            : login.phone.length != 11
+                ? AppDictionary.phoneFormatInvalid
+                : AppDictionary.fillInput;
         passwordErrorText = '';
       } else if (isLoginValid && isPasswordValid == false) {
-        loginValid = true;
-        passwordValid = false;
         loginErrorText = '';
         passwordErrorText = AppDictionary.fillInput;
       } else if (login.password != login.repeatPassword) {
-        loginValid = true;
-        passwordValid = false;
         loginErrorText = '';
         passwordErrorText = AppDictionary.passwordMismatch;
       } else {
-        loginValid = false;
-        passwordValid = false;
         loginErrorText = AppDictionary.fillInput;
         passwordErrorText = AppDictionary.fillInput;
       }
@@ -88,8 +82,8 @@ Middleware<AppState> _checkReg() {
           login: login.phone,
           password: login.password,
           errorMessage: '',
-          isLoginValid: loginValid,
-          isPasswordValid: passwordValid,
+          isLoginValid: isLoginValid,
+          isPasswordValid: isPasswordValid,
           loginError: loginErrorText,
           passwordError: passwordErrorText));
     }

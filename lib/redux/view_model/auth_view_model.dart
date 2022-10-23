@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:shop_it/enums/error_codes.dart';
 
 @immutable
 class AuthViewModel {
   final String login;
   final String password;
   final bool isProcessing;
+  final bool? isPhoneValid;
+  final bool? isPasswordValid;
+  final String? phoneMessage;
+  final String? passwordMessage;
   final bool? authSuccess;
   final String? errorMessage;
-  final ErrorCode? errorCode;
 
   const AuthViewModel({
     required this.login,
     required this.password,
     required this.isProcessing,
+    this.isPhoneValid,
+    this.isPasswordValid,
+    this.phoneMessage,
+    this.passwordMessage,
     this.authSuccess,
     this.errorMessage,
-    this.errorCode,
   });
 
   factory AuthViewModel.initial() {
@@ -30,20 +35,25 @@ class AuthViewModel {
   AuthViewModel copyWith({
     required String login,
     required String password,
-    String? passwordRepeat,
     required bool isProcessing,
+    bool? isPhoneValid,
+    bool? isPasswordValid,
     bool? authSuccess,
     bool? regSuccess,
     String? errorMessage,
-    ErrorCode? errorCode,
+    String? phoneMessage,
+    String? passwordMessage,
   }) {
     return AuthViewModel(
       login: login,
       password: password,
       isProcessing: isProcessing,
+      isPhoneValid: isPhoneValid ?? this.isPhoneValid,
+      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       authSuccess: authSuccess ?? this.authSuccess,
       errorMessage: errorMessage ?? this.errorMessage,
-      errorCode: errorCode ?? this.errorCode,
+      phoneMessage: phoneMessage ?? this.phoneMessage,
+      passwordMessage: errorMessage ?? this.passwordMessage,
     );
   }
 
@@ -55,11 +65,22 @@ class AuthViewModel {
           login == other.login &&
           password == other.password &&
           isProcessing == other.isProcessing &&
+          isPhoneValid == other.isPhoneValid &&
+          isPasswordValid == other.isPasswordValid &&
           authSuccess == other.authSuccess &&
-          errorCode == other.errorCode &&
+          phoneMessage == other.phoneMessage &&
+          passwordMessage == other.passwordMessage &&
           errorMessage == other.errorMessage;
 
   @override
   int get hashCode =>
-      login.hashCode ^ password.hashCode ^ isProcessing.hashCode ^ authSuccess.hashCode ^ errorCode.hashCode ^ errorMessage.hashCode;
+      login.hashCode ^
+      password.hashCode ^
+      isProcessing.hashCode ^
+      isPhoneValid.hashCode ^
+      isPasswordValid.hashCode ^
+      authSuccess.hashCode ^
+      passwordMessage.hashCode ^
+      phoneMessage.hashCode ^
+      errorMessage.hashCode;
 }
