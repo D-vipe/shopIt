@@ -31,14 +31,14 @@ Middleware<AppState> _checkAuth() {
     if (isLoginValid && isPasswordValid) {
       Future(() async {
         try {
-          User? authData;
+          Map<String, dynamic> authData;
           // Uncomment API-call when end-point is ready
           authData = await _authApi.authorize(login: login);
 
           // Decode user jwt here to get user data
 
-          if (authData != null) {
-            await SharedStorageService.setString(PreferenceKey.userId, authData.id);
+          if (authData['user'] != null) {
+            await SharedStorageService.setString(PreferenceKey.userJwt, authData['token']);
             // save user to hive box
             // await HiveService.addUser(data: authData);
 

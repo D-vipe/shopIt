@@ -1,5 +1,3 @@
-import 'package:shop_it/enums/error_codes.dart';
-
 class CheckRegCredentials {
   final String login;
   final String password;

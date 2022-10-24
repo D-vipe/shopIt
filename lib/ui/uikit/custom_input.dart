@@ -13,6 +13,7 @@ class CustomInput extends StatelessWidget {
   final bool isProcessing;
   final Function? resetError;
   final bool? isPhone;
+  final MaskTextInputFormatter? formatter;
 
   const CustomInput({
     Key? key,
@@ -23,22 +24,18 @@ class CustomInput extends StatelessWidget {
     required this.isProcessing,
     this.resetError,
     this.isPhone,
+    this.formatter,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    MaskTextInputFormatter? formatter;
-    if (isPhone == true) {
-      formatter = phoneFormatter();
-    }
-
     return TextFormField(
       enabled: !isProcessing,
       maxLines: maxLines,
       controller: controller,
       showCursor: true,
       keyboardType: isPhone == true ? TextInputType.number : null,
-      inputFormatters: isPhone == true ? [formatter!] : [],
+      inputFormatters: formatter != null ? [formatter!] : [],
       cursorColor: Theme.of(context).colorScheme.onBackground,
       onTap: () => resetError != null ? resetError!.call() : null,
       onChanged: (String value) {
@@ -59,9 +56,7 @@ class CustomInput extends StatelessWidget {
             borderRadius: const BorderRadius.all(
               Radius.circular(8),
             ),
-            borderSide: isInvalid
-                ? const BorderSide(color: AppColors.red, width: 1)
-                : BorderSide(color: Theme.of(context).colorScheme.onBackground, width: 1)),
+            borderSide: isInvalid ? const BorderSide(color: AppColors.red, width: 1) : BorderSide(color: Theme.of(context).colorScheme.onBackground, width: 1)),
         enabledBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(
               Radius.circular(8),

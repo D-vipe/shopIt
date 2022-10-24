@@ -30,25 +30,22 @@ Middleware<AppState> _checkReg() {
     if (isLoginValid && isPasswordValid) {
       Future(() async {
         try {
-          User? authData;
+          Map<String, dynamic> authData;
           // Uncomment API-call when end-point is ready
-          // authData = await _authApi.authorize(login: login);
+          authData = await _authApi.register(login: login);
 
-          // Decode user jwt here to get user data
+          if (authData['user'] != null) {
+            await SharedStorageService.setString(PreferenceKey.userJwt, authData['token']);
+            // save user to hive box
+            // await HiveService.addUser(data: authData);
 
-          // if (authData != null) {
-          //   await SharedStorageService.setString(PreferenceKey.userId, authData.id);
-          //   // save user to hive box
-          //   // await HiveService.addUser(data: authData);
-          //
-          //   store.dispatch(RegSuccess());
-          // } else {
-          //   store.dispatch(ErrorAction(
-          //       login: login.phone,
-          //       password: login.password,
-          //       errorCode: ErrorCode.wrongCredentials,
-          //       errorMessage: GeneralErrors.wrongCredentials));
-          // }
+            store.dispatch(RegSuccess());
+          } else {
+            store.dispatch(ErrorAction(
+                login: login.phone,
+                password: login.password,
+                errorMessage: GeneralErrors.wrongCredentials));
+          }
         } on ConnectionException {
           store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.serverError));
         } on ParseException {

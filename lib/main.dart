@@ -46,7 +46,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _light = ThemeService.getCurrentTheme();
+    // _light = ThemeService.getCurrentTheme();
+    _light = true;
   }
 
   void changeTheme(bool lightTheme) {

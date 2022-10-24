@@ -13,6 +13,7 @@ class InputBlock extends StatelessWidget {
   final TextEditingController controller;
   final Function resetError;
   final bool isProcessing;
+  final MaskTextInputFormatter? formatter;
 
   const InputBlock({
     Key? key,
@@ -24,6 +25,7 @@ class InputBlock extends StatelessWidget {
     required this.resetError,
     required this.isProcessing,
     this.isPhone,
+    this.formatter,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,7 @@ class InputBlock extends StatelessWidget {
                 isInvalid: isError,
                 resetError: resetError,
                 isProcessing: isProcessing,
+                formatter: formatter,
               ),
         AnimatedOpacity(
           opacity: isError ? 1 : 0,

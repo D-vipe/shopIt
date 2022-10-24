@@ -14,8 +14,6 @@ class ResetPasswordError {
 }
 
 class AuthSuccess {
-  // TODO add success auth object params here
-
   AuthSuccess();
 }
 

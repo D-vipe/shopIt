@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shop_it/app/constants/app_colors.dart';
 import 'package:shop_it/app/constants/app_dictionary.dart';
+import 'package:shop_it/app/constants/errors_const.dart';
 import 'package:shop_it/app/theme/text_styles.dart';
 import 'package:shop_it/app/enums/carousel_action_type.dart';
 import 'package:shop_it/redux/actions/reg_actions.dart';
 import 'package:shop_it/redux/app_state.dart';
 import 'package:shop_it/redux/view_model/reg_view_model.dart';
+import 'package:shop_it/services/snackbar_service.dart';
 import 'package:shop_it/ui/pages/auth/components/input_block.dart';
 import 'package:shop_it/ui/uikit/rounded_button.dart';
+import 'package:shop_it/ui/uikit/text_formatters/phone_format.dart';
 
 class RegForm extends StatefulWidget {
   final Function changeForm;
@@ -20,6 +24,7 @@ class RegForm extends StatefulWidget {
 
 class _RegFormState extends State<RegForm> {
   final _formKey = GlobalKey<FormState>();
+  MaskTextInputFormatter formatter = phoneFormatter();
   late TextEditingController loginController;
   late TextEditingController passwordController;
   late TextEditingController passwordRepeatController;
@@ -43,7 +48,7 @@ class _RegFormState extends State<RegForm> {
   void sendFormHandler() {
     FocusManager.instance.primaryFocus?.unfocus();
     StoreProvider.of<AppState>(context).dispatch(CheckRegCredentials(
-      login: loginController.text,
+      login: '7${formatter.getUnmaskedText()}',
       password: passwordController.text,
       repeatPassword: passwordRepeatController.text,
     ));
@@ -62,6 +67,14 @@ class _RegFormState extends State<RegForm> {
     return StoreConnector<AppState, RegViewModel>(
       converter: (store) => store.state.regFormState,
       distinct: true,
+      onDidChange: (_, state) {
+        if (state.regSuccess == true) {
+          debugPrint('YOUHOOOO! NAVIGATE TO MAIN SCREEN');
+        }
+        if (state.regSuccess == false && state.errorMessage != null) {
+          SnackbarService.showErrorMessage(context: context, message: state.errorMessage ?? GeneralErrors.generalError);
+        }
+      },
       builder: (_, RegViewModel state) {
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -90,6 +103,7 @@ class _RegFormState extends State<RegForm> {
                           children: [
                             InputBlock(
                                 isPhone: true,
+                                formatter: formatter,
                                 isPassword: false,
                                 label: AppDictionary.phoneLabel,
                                 controller: loginController,
@@ -119,6 +133,7 @@ class _RegFormState extends State<RegForm> {
                               isProcessing: state.isProcessing,
                               color: AppColors.red,
                               labelStyle: AppTextStyle.main18W600.apply(color: AppColors.white),
+                              loaderColor: AppColors.white,
                               handler: sendFormHandler,
                             )
                           ],
