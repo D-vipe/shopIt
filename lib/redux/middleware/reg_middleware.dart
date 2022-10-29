@@ -28,32 +28,36 @@ Middleware<AppState> _checkReg() {
     final bool isPasswordValid = login.password != '' && login.repeatPassword != '' && login.password == login.repeatPassword;
 
     if (isLoginValid && isPasswordValid) {
-      Future(() async {
-        try {
-          Map<String, dynamic> authData;
-          // Uncomment API-call when end-point is ready
-          authData = await _authApi.register(login: login);
+      Future(
+        () async {
+          try {
+            Map<String, dynamic> authData;
+            // Uncomment API-call when end-point is ready
+            authData = await _authApi.register(login: login);
 
-          if (authData['user'] != null) {
-            await SharedStorageService.setString(PreferenceKey.userJwt, authData['token']);
-            // save user to hive box
-            // await HiveService.addUser(data: authData);
+            if (authData['user'] != null) {
+              await SharedStorageService.setString(PreferenceKey.userJwt, authData['token']);
+              // save user to hive box
+              // await HiveService.addUser(data: authData);
 
-            store.dispatch(RegSuccess());
-          } else {
+              store.dispatch(RegSuccess());
+            } else {
+              store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.wrongCredentials));
+            }
+          } on ConnectionException {
+            store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.serverError));
+          } on ServerException catch (e) {
             store.dispatch(ErrorAction(
                 login: login.phone,
                 password: login.password,
-                errorMessage: GeneralErrors.wrongCredentials));
+                errorMessage: e.message.toString() != '' ? e.message.toString() : GeneralErrors.serverError));
+          } on ParseException {
+            store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.parseError));
+          } catch (e) {
+            store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.generalError));
           }
-        } on ConnectionException {
-          store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.serverError));
-        } on ParseException {
-          store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.parseError));
-        } catch (e) {
-          store.dispatch(ErrorAction(login: login.phone, password: login.password, errorMessage: GeneralErrors.generalError));
-        }
-      });
+        },
+      );
     } else {
       String loginErrorText = '';
       String passwordErrorText = '';

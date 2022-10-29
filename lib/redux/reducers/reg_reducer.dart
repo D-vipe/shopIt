@@ -21,6 +21,7 @@ RegViewModel _processReg(RegViewModel state, CheckRegCredentials action) {
     isLoginValid: true,
     loginMessage: '',
     passwordMessage: '',
+    errorMessage: '',
   );
 }
 
@@ -30,17 +31,20 @@ RegViewModel _success(RegViewModel state, RegSuccess action) {
     password: state.password,
     regSuccess: true,
     isProcessing: false,
+    errorMessage: '',
   );
 }
 
 RegViewModel _resetPhone(RegViewModel state, ResetPhoneError action) {
   return state.copyWith(
-      login: state.login,
-      password: state.password,
-      regSuccess: state.regSuccess,
-      isProcessing: false,
-      isLoginValid: true,
-      loginMessage: '');
+    login: state.login,
+    password: state.password,
+    regSuccess: state.regSuccess,
+    isProcessing: false,
+    isLoginValid: true,
+    loginMessage: '',
+    errorMessage: '',
+  );
 }
 
 RegViewModel _resetPass(RegViewModel state, ResetPasswordError action) {
@@ -50,7 +54,8 @@ RegViewModel _resetPass(RegViewModel state, ResetPasswordError action) {
       regSuccess: state.regSuccess,
       isProcessing: false,
       isPasswordValid: true,
-      passwordMessage: '');
+      passwordMessage: '',
+      errorMessage: '');
 }
 
 RegViewModel _errorHandler(RegViewModel state, ErrorAction action) {

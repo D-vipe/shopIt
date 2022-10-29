@@ -41,7 +41,7 @@ class AuthApi {
       return authData;
     } on ParseException {
       rethrow;
-    } on NotFoundException {
+    } on ServerException {
       rethrow;
     } on ConnectionException {
       rethrow;
@@ -51,21 +51,21 @@ class AuthApi {
   }
 
   Map<String, dynamic> _parseLoginResponse(Response response, String path) {
-    User? data;
-    final String? jwtToken = response.data;
-
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
       case 204:
+        User? data;
+        String? jwtToken;
         if (response.data != null && response.data.isNotEmpty) {
           try {
+            jwtToken = response.data['token'];
             // Получаем токен, расшифровываем и конвертируем данные в User
             if (jwtToken != null) {
               Map<String, dynamic> payload = Jwt.parseJwt(jwtToken);
               if (payload.isNotEmpty) {
-                data = User.fromJson(response.data);
+                data = User.fromJson(payload['dataStoredInToken']);
               } else {
                 // не удалось распарсить jwt-токен
                 throw ParseException();
@@ -77,9 +77,11 @@ class AuthApi {
             throw ParseException();
           }
         }
-        return {'token': response.data, 'user': data};
+        return {'token': jwtToken, 'user': data};
       case 400:
-        throw NotFoundException();
+      case 401:
+      case 404:
+        throw ServerException(message: response.data['message']);
       default:
         throw ConnectionException();
     }
