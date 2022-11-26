@@ -10,9 +10,9 @@ class AppTheme {
         canvasColor: AppColors.white,
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
-          primary: AppColors.blue,
+          primary: AppColors.pink,
           onPrimary: AppColors.white,
-          secondary: AppColors.futureBlue,
+          secondary: AppColors.red,
           onSecondary: AppColors.white,
           error: AppColors.errorRed,
           onError: AppColors.errorRed,
@@ -24,8 +24,7 @@ class AppTheme {
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.white,
           centerTitle: true,
-          titleTextStyle:
-              AppTextStyle.comforta14W400.apply(color: AppColors.black),
+          titleTextStyle: AppTextStyle.main14W400.apply(color: AppColors.black),
           iconTheme: const IconThemeData(color: AppColors.blue),
           actionsIconTheme: const IconThemeData(color: AppColors.blue),
         ),
@@ -51,12 +50,10 @@ class AppTheme {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             backgroundColor: AppColors.blue,
-            textStyle:
-                AppTextStyle.comforta16W400.apply(color: AppColors.white),
+            textStyle: AppTextStyle.main16W400.apply(color: AppColors.white),
           ),
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: AppColors.blue, elevation: 3),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: AppColors.blue, elevation: 3),
       );
 
   static ThemeData darkTheme() => ThemeData(
@@ -77,8 +74,7 @@ class AppTheme {
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.black.withOpacity(.1),
           centerTitle: true,
-          titleTextStyle:
-              AppTextStyle.comforta14W400.apply(color: AppColors.white),
+          titleTextStyle: AppTextStyle.main14W400.apply(color: AppColors.white),
           iconTheme: const IconThemeData(color: AppColors.pink),
           actionsIconTheme: const IconThemeData(color: AppColors.pink),
         ),
@@ -105,11 +101,9 @@ class AppTheme {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             backgroundColor: AppColors.pink,
-            textStyle:
-                AppTextStyle.comforta16W400.apply(color: AppColors.white),
+            textStyle: AppTextStyle.main16W400.apply(color: AppColors.white),
           ),
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: AppColors.pink, elevation: 3),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: AppColors.pink, elevation: 3),
       );
 }

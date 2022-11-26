@@ -3,7 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioSettings {
-  static const String baseUrl = 'https://jsonplaceholder.typicode.com';
+  // static const String baseUrl = 'http://192.168.31.11:3000/api'; // Игнатово
+  // static const String baseUrl = 'http://192.168.0.16:3000/api'; // Склизкова
+  static const String baseUrl = 'http://172.20.10.14:3000/api'; // phone
 
   final BaseOptions _dioBaseOptions = BaseOptions(
     baseUrl: baseUrl,
@@ -51,8 +53,7 @@ class DioExceptions implements Exception {
         message = 'Ожидание приема данных  от сервера было превышено';
         break;
       case DioErrorType.response:
-        message = _handleError(
-            dioError.response!.statusCode!, dioError.response!.data);
+        message = _handleError(dioError.response!.statusCode!, dioError.response!.data);
         break;
       case DioErrorType.sendTimeout:
         message = 'Ожидание соединения от сервера было превышено';

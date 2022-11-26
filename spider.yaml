@@ -19,6 +19,9 @@ use_references_list: false
 package: resources
 
 groups:
+  - class_name: AppImages
+    path: assets/images
+    types: [ .png, .jpg, .jpeg, .webp, .webm, .bmp, .svg ]
   - class_name: AppIcons
     path: assets/icons
     types: [ .png, .jpg, .jpeg, .webp, .webm, .bmp, .svg ]

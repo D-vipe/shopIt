@@ -1,0 +1,1 @@
+enum CarouselAction { next, prev }
